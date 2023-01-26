@@ -8,19 +8,6 @@ import (
 	"net/http"
 )
 
-type PageId int32
-
-const (
-	continuous_android  PageId = 1231487004
-	continuous_ios      PageId = 8
-	integration_android PageId = 1
-	integration_ios     PageId = 2
-	staging_android     PageId = 3
-	staging_ios         PageId = 4
-	review_android      PageId = 5
-	review_ios          PageId = 6
-)
-
 type PageVersion struct {
 	Message string `json:"message"`
 	Number  int16  `json:"number"`
@@ -48,7 +35,7 @@ type ConfluencePage struct {
 	Version  PageVersion `json:"version"`
 }
 
-func getConfluencePage(pageId PageId) (*ConfluencePage, error) {
+func getConfluencePage(pageId int32) (*ConfluencePage, error) {
 	client := &http.Client{}
 	var currentPage ConfluencePage
 
@@ -83,7 +70,7 @@ func getConfluencePage(pageId PageId) (*ConfluencePage, error) {
 	return &currentPage, nil
 }
 
-func putConfluencePage(pageId PageId, content *ConfluencePage) error {
+func putConfluencePage(pageId int32, content *ConfluencePage) error {
 	client := &http.Client{}
 
 	// fmt.Println(content.Body.Storage.Value)

@@ -5,17 +5,6 @@ import (
 	"regexp"
 )
 
-var ExpoBuildProfilePageId = map[string]PageId{
-	"continuous:android":  continuous_android,
-	"continuous:ios":      continuous_ios,
-	"integration:android": integration_android,
-	"integration:ios":     integration_ios,
-	"staging:android":     staging_android,
-	"staging:ios":         staging_ios,
-	"review:android":      review_android,
-	"review:ios":          review_ios,
-}
-
 type Build struct {
 	Platform    string `json:"platform,omitempty"`
 	Key         string `json:"key,omitempty"`
@@ -34,7 +23,6 @@ var buildMapper = map[Environment]Build{
 }
 
 func webhookHandler(context ExpoBuild) error {
-	profileKey := string(context.Metadata.BuildProfile) + ":" + string(context.Platform)
 	templateTableKey := string(context.Metadata.BuildProfile) + "-" + string(context.Platform)
 	build := Build{
 		Platform:    string(context.Metadata.BuildProfile),
@@ -46,10 +34,9 @@ func webhookHandler(context ExpoBuild) error {
 		ExpiresAt:   context.ExpirationDate,
 	}
 
-	pageId := ExpoBuildProfilePageId[profileKey]
 	buildTemplate := generateBuildTemplate(build)
 
-	previousPage, err := getConfluencePage(pageId)
+	previousPage, err := getConfluencePage(CONFLUENCE_PAGE_ID)
 	if err != nil {
 		return err
 	}
@@ -76,7 +63,7 @@ func webhookHandler(context ExpoBuild) error {
 		},
 	}
 
-	return putConfluencePage(pageId, &nextPage)
+	return putConfluencePage(CONFLUENCE_PAGE_ID, &nextPage)
 }
 
 func generateBuildTemplate(build Build) string {
