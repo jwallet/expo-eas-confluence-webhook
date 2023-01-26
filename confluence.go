@@ -105,3 +105,24 @@ func putConfluencePage(pageId int32, content *ConfluencePage) error {
 
 	return nil
 }
+
+func generateConfluenceUpdatePagePayload(previousPage *ConfluencePage, messageVersion string, storageValue string) *ConfluencePage {
+	return &ConfluencePage{
+		Version: PageVersion{
+			Number:  previousPage.Version.Number + 1,
+			Message: messageVersion,
+		},
+		PageType: "page",
+		Status:   "current",
+		Title:    previousPage.Title,
+		Space: PageSpace{
+			Key: "BLOG",
+		},
+		Body: PageBody{
+			Storage: PageStorage{
+				Value:          storageValue,
+				Representation: "storage",
+			},
+		},
+	}
+}

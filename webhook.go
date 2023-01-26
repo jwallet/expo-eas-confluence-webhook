@@ -42,28 +42,11 @@ func webhookHandler(context ExpoBuild) error {
 	}
 	fmt.Printf("Got '%v' Page from Confluence\n", previousPage.Title)
 
+	messageVersion := fmt.Sprintf("EAS build %v finished", context.Id)
 	storageValue := updateStorageValueWithNewBuildTemplate(previousPage.Body.Storage.Value, buildTemplate, templateTableKey)
+	nextPage := generateConfluenceUpdatePagePayload(previousPage, messageVersion, storageValue)
 
-	nextPage := ConfluencePage{
-		Version: PageVersion{
-			Number:  previousPage.Version.Number + 1,
-			Message: fmt.Sprintf("EAS build %v finished", context.Id),
-		},
-		PageType: "page",
-		Status:   "current",
-		Title:    previousPage.Title,
-		Space: PageSpace{
-			Key: "BLOG",
-		},
-		Body: PageBody{
-			Storage: PageStorage{
-				Value:          storageValue,
-				Representation: "storage",
-			},
-		},
-	}
-
-	return putConfluencePage(CONFLUENCE_PAGE_ID, &nextPage)
+	return putConfluencePage(CONFLUENCE_PAGE_ID, nextPage)
 }
 
 func generateBuildTemplate(build Build) string {

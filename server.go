@@ -76,26 +76,9 @@ func setupServer() {
 		template := getDefaultTemplate()
 		minifier := strings.NewReplacer("\n", "", "\t", "")
 		minifiedTemplate := minifier.Replace(template)
-		page := ConfluencePage{
-			Version: PageVersion{
-				Number:  previousPage.Version.Number + 1,
-				Message: "Init EAS builds template",
-			},
-			PageType: "page",
-			Status:   "current",
-			Title:    "EAS builds d'environnement",
-			Space: PageSpace{
-				Key: "BLOG",
-			},
-			Body: PageBody{
-				Storage: PageStorage{
-					Value:          minifiedTemplate,
-					Representation: "storage",
-				},
-			},
-		}
+		page := generateConfluenceUpdatePagePayload(previousPage, "Init EAS builds template", minifiedTemplate)
 
-		err = putConfluencePage(CONFLUENCE_PAGE_ID, &page)
+		err = putConfluencePage(CONFLUENCE_PAGE_ID, page)
 		if err != nil {
 			fmt.Printf("An error occured %v\n", err)
 			w.WriteHeader(http.StatusForbidden)
