@@ -35,7 +35,7 @@ type ConfluencePage struct {
 	Version  PageVersion `json:"version"`
 }
 
-func getConfluencePage(pageId int32) (*ConfluencePage, error) {
+func getConfluencePage(pageId int) (*ConfluencePage, error) {
 	client := &http.Client{}
 	var currentPage ConfluencePage
 
@@ -70,7 +70,7 @@ func getConfluencePage(pageId int32) (*ConfluencePage, error) {
 	return &currentPage, nil
 }
 
-func putConfluencePage(pageId int32, content *ConfluencePage) error {
+func putConfluencePage(pageId int, content *ConfluencePage) error {
 	client := &http.Client{}
 
 	// fmt.Println(content.Body.Storage.Value)
