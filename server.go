@@ -25,6 +25,7 @@ func setupServer() {
 		// h.Write([]byte(r.Body))
 		// fmt.Print(h.Size())
 		// webhookHandler(r.Body)
+		w.Header().Set("Content-Type", "application/text")
 
 		if r.Method != "POST" {
 			w.WriteHeader(http.StatusMethodNotAllowed)
@@ -61,6 +62,8 @@ func setupServer() {
 	})
 
 	http.HandleFunc("/init", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/text")
+
 		if r.Method != "POST" {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 			return
