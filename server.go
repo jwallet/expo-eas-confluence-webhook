@@ -62,8 +62,8 @@ func setupServer() {
 	})
 
 	http.HandleFunc("/init", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/text")
 
+		w.Header().Set("Content-Type", "application/text")
 		if r.Method != "POST" {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 			return
