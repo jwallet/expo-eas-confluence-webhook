@@ -55,7 +55,7 @@ func generateBuildTemplate(build Build) string {
 }
 
 func updateStorageValueWithNewBuildTemplate(storageValue string, buildTemplate string, tableKey string) string {
-	selector := regexp.MustCompile(fmt.Sprintf(`<table data-layout="default" ac:local-id="%v">.*</table>`, tableKey))
+	selector := regexp.MustCompile(fmt.Sprintf(`<table data-layout="default" ac:local-id="%v">.*?</table>`, tableKey))
 	parts := selector.Split(storageValue, 2)
 	return parts[0] + buildTemplate + parts[1]
 }
