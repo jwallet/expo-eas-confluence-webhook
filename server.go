@@ -91,11 +91,11 @@ func setupServer() {
 		}
 	})
 
-	l, err := net.Listen("tcp", "localhost:8080")
+	l, err := net.Listen("tcp", fmt.Sprintf("localhost:%v", PORT))
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	log.Println("Server listening on localhost:8080")
+	log.Printf("Server listening on localhost:%v", PORT)
 	log.Fatal(http.Serve(l, nil))
 }
