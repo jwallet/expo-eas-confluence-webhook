@@ -17,6 +17,7 @@ func setupServer() {
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/text")
 		w.Write([]byte("Check"))
+		fmt.Println("healthcheck")
 	})
 
 	http.HandleFunc("/webhook", func(w http.ResponseWriter, r *http.Request) {
