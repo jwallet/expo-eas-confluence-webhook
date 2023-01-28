@@ -97,5 +97,7 @@ func setupServer() {
 	}
 
 	log.Printf("Server listening on localhost:%v", PORT)
-	log.Fatal(http.Serve(l, nil))
+	go func() {
+		log.Fatal(http.Serve(l, nil))
+	}()
 }
