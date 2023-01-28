@@ -44,6 +44,9 @@ func webhookHandler(context ExpoBuild) error {
 
 	messageVersion := fmt.Sprintf("EAS build %v finished", context.Id)
 	storageValue := updateStorageValueWithNewBuildTemplate(previousPage.Body.Storage.Value, buildTemplate, templateTableKey)
+	if storageValue == "" {
+		return fmt.Errorf("Did not find any valid <table> tag.")
+	}
 	nextPage := generateConfluenceUpdatePagePayload(previousPage, messageVersion, storageValue)
 
 	return putConfluencePage(CONFLUENCE_PAGE_ID, nextPage)
@@ -57,5 +60,8 @@ func generateBuildTemplate(build Build) string {
 func updateStorageValueWithNewBuildTemplate(storageValue string, buildTemplate string, tableKey string) string {
 	selector := regexp.MustCompile(fmt.Sprintf(`<table data-layout="default" ac:local-id="%v">.*?</table>`, tableKey))
 	parts := selector.Split(storageValue, 2)
+	if len(parts) != 2 {
+		return ""
+	}
 	return parts[0] + buildTemplate + parts[1]
 }

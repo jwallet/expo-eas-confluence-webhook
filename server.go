@@ -1,6 +1,9 @@
 package main
 
 import (
+	"crypto/hmac"
+	"crypto/sha1"
+	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -20,10 +23,6 @@ func setupServer() {
 	})
 
 	http.HandleFunc("/webhook", func(w http.ResponseWriter, r *http.Request) {
-		// h := hmac.New(sha1.New, []byte(secret))
-		// h.Write([]byte(r.Body))
-		// fmt.Print(h.Size())
-		// webhookHandler(r.Body)
 		w.Header().Set("Content-Type", "application/text")
 
 		if r.Method != "POST" {
@@ -37,18 +36,24 @@ func setupServer() {
 			log.Fatalln(err)
 		}
 
-		json.Unmarshal(body, &expoContext)
+		digest := hmac.New(sha1.New, []byte(EXPO_HMAC_SECRET))
+		digest.Write(body)
+		receivedSignature := r.Header.Get("expo-signature")
+		log.Printf("gaga %v", receivedSignature)
+		expectedSignature := hex.EncodeToString(digest.Sum(nil))
+		if expectedSignature != receivedSignature {
+			log.Printf("Invalid HMAC, received %v, expected %v", receivedSignature, expectedSignature)
+			w.WriteHeader(http.StatusUnauthorized)
+			return
+		}
 
-		// if !hmac.Equal([]byte(r.Header.Get("Expo-Signature")), h.Sum(nil)) {
-		// 	w.WriteHeader(http.StatusUnauthorized)
-		// 	return
-		// }
+		json.Unmarshal(body, &expoContext)
 
 		if expoContext.Status == "finished" {
 			log.Println("Received build")
 			err := webhookHandler(expoContext)
 			if err != nil {
-				fmt.Printf("An error occured %v\n", err)
+				fmt.Printf("An error occured: %v\n", err)
 				w.WriteHeader(http.StatusConflict)
 			} else {
 				log.Println("Expo build published on Confluence")
