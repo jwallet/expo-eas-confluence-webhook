@@ -1,0 +1,345 @@
+{
+	"info": {
+		"_postman_id": "94597ad1-b717-4734-8519-327d3f1e180c",
+		"name": "expo webhook",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PROD - Healthcheck",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"prodURL\", \"https://prod-url.app\")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{prodURL}}/healthcheck",
+					"host": [
+						"{{prodURL}}"
+					],
+					"path": [
+						"healthcheck"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PROD - Init Template",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"prodURL\", \"https://prod-url.app\")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{prodURL}}/init",
+					"host": [
+						"{{prodURL}}"
+					],
+					"path": [
+						"init"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PROD - Webhook",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var SECRET = \"a-secret-passphrase\"\r",
+							"\r",
+							"var hashHmacSHA1 = CryptoJS.HmacSHA1(request.data, SECRET).toString(CryptoJS.digest);\r",
+							"pm.environment.set(\"hmac\", hashHmacSHA1)\r",
+							"\r",
+							"pm.environment.set(\"prodURL\", \"https://prod-url.app\")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "expo-signature",
+						"value": "{{hmac}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"147a3212-49fd-446f-b4e3-a6519acf264a\",\r\n  \"accountName\": \"dsokal\",\r\n  \"projectName\": \"example\",\r\n  \"buildDetailsPageUrl\": \"https://expo.dev/accounts/dsokal/projects/example/builds/147a3212-49fd-446f-b4e3-a6519acf264a\",\r\n  \"parentBuildId\": \"75ac0be7-0d90-46d5-80ec-9423fa0aaa6b\",\r\n  \"appId\": \"bc0a82de-65a5-4497-ad86-54ff1f53edf7\",\r\n  \"initiatingUserId\": \"d1041496-1a59-423a-8caf-479bb978203a\",\r\n  \"cancelingUserId\": null,\r\n  \"platform\": \"android\",\r\n  \"status\": \"finished\",\r\n  \"artifacts\": {\r\n    \"buildUrl\": \"https://expo.dev/artifacts/eas/wyodu9tua2ZuKKiaJ1Nbkn.aab\",\r\n    \"logsS3KeyPrefix\": \"production/f9609423-5072-4ea2-a0a5-c345eedf2c2a\"\r\n  },\r\n  \"metadata\": {\r\n    \"appName\": \"example\",\r\n    \"username\": \"dsokal\",\r\n    \"workflow\": \"managed\",\r\n    \"appVersion\": \"1.0.2\",\r\n    \"appBuildVersion\": \"123\",\r\n    \"cliVersion\": \"0.37.0\",\r\n    \"sdkVersion\": \"41.0.0\",\r\n    \"buildProfile\": \"continuous\",\r\n    \"distribution\": \"store\",\r\n    \"appIdentifier\": \"com.expo.example\",\r\n    \"gitCommitHash\": \"564b61ebdd403d28b5dc616a12ce160b91585b5b\",\r\n    \"gitCommitMessage\": \"Add home screen\",\r\n    \"runtimeVersion\": \"1.0.2\",\r\n    \"channel\": \"default\",\r\n    \"releaseChannel\": \"default\", \r\n    \"reactNativeVersion\": \"0.60.0\",\r\n    \"trackingContext\": {\r\n      \"platform\": \"android\",\r\n      \"account_id\": \"7c34cbf1-efd4-4964-84a1-c13ed297aaf9\",\r\n      \"dev_client\": false,\r\n      \"project_id\": \"bc0a82de-65a5-4497-ad86-54ff1f53edf7\",\r\n      \"tracking_id\": \"a3fdefa7-d129-42f2-9432-912050ab0f10\",\r\n      \"project_type\": \"managed\",\r\n      \"dev_client_version\": \"0.6.2\"\r\n    },\r\n    \"credentialsSource\": \"remote\",\r\n    \"isGitWorkingTreeDirty\": false,\r\n    \"message\": \"release build\",\r\n    \"runFromCI\": false\r\n  },\r\n  \"metrics\": {\r\n    \"memory\": 895070208,\r\n    \"buildEndTimestamp\": 1637747861168,\r\n    \"totalDiskReadBytes\": 692224,\r\n    \"buildStartTimestamp\": 1637747834445,\r\n    \"totalDiskWriteBytes\": 14409728,\r\n    \"cpuActiveMilliseconds\": 12117.540078,\r\n    \"buildEnqueuedTimestamp\": 1637747792476,\r\n    \"totalNetworkEgressBytes\": 355352,\r\n    \"totalNetworkIngressBytes\": 78781667\r\n  },\r\n  \"error\": {\r\n    \"message\": \"Unknown error. Please see logs.\",\r\n    \"errorCode\": \"UNKNOWN_ERROR\"\r\n  },\r\n  \"createdAt\": \"2021-11-24T09:53:01.155Z\",\r\n  \"enqueuedAt\": \"2021-11-24T09:53:01.155Z\",\r\n  \"provisioningStartedAt\": \"2021-11-24T09:54:01.155Z\",\r\n  \"workerStartedAt\": \"2021-11-24T09:54:11.155Z\",\r\n  \"completedAt\": \"2021-11-24T09:57:42.715Z\",\r\n  \"updatedAt\": \"2021-11-24T09:57:42.715Z\",\r\n  \"expirationDate\": \"2021-12-24T09:53:01.155Z\",\r\n  \"priority\": \"high\",\r\n  \"resourceClass\": \"android-n2-1.3-12\",\r\n  \"actualResourceClass\": \"android-n2-1.3-12\",\r\n  \"maxRetryTimeMinutes\": 3600\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{prodURL}}/webhook",
+					"host": [
+						"{{prodURL}}"
+					],
+					"path": [
+						"webhook"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOCAL - Healthcheck",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/healthcheck",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"healthcheck"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOCAL - Init Template",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/init",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"init"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOCAL - Webhook",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var SECRET = \"a-secret-passphrase\"\r",
+							"\r",
+							"var hashHmacSHA1 = CryptoJS.HmacSHA1(request.data, SECRET).toString(CryptoJS.digest);\r",
+							"pm.environment.set(\"hmac\", hashHmacSHA1)\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "expo-signature",
+						"value": "{{hmac}}",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					},
+					{
+						"key": "expo-signature",
+						"value": "51eb99c0b4bdb0a9920334e3f4baf26623b0d0a9",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"147a3212-49fd-446f-b4e3-a6519acf264a\",\r\n  \"accountName\": \"dsokal\",\r\n  \"projectName\": \"example\",\r\n  \"buildDetailsPageUrl\": \"https://expo.dev/accounts/dsokal/projects/example/builds/147a3212-49fd-446f-b4e3-a6519acf264a\",\r\n  \"parentBuildId\": \"75ac0be7-0d90-46d5-80ec-9423fa0aaa6b\",\r\n  \"appId\": \"bc0a82de-65a5-4497-ad86-54ff1f53edf7\",\r\n  \"initiatingUserId\": \"d1041496-1a59-423a-8caf-479bb978203a\",\r\n  \"cancelingUserId\": null,\r\n  \"platform\": \"android\",\r\n  \"status\": \"finished\",\r\n  \"artifacts\": {\r\n    \"buildUrl\": \"https://expo.dev/artifacts/eas/wyodu9tua2ZuKKiaJ1Nbkn.aab\",\r\n    \"logsS3KeyPrefix\": \"production/f9609423-5072-4ea2-a0a5-c345eedf2c2a\"\r\n  },\r\n  \"metadata\": {\r\n    \"appName\": \"example\",\r\n    \"username\": \"dsokal\",\r\n    \"workflow\": \"managed\",\r\n    \"appVersion\": \"1.0.2\",\r\n    \"appBuildVersion\": \"123\",\r\n    \"cliVersion\": \"0.37.0\",\r\n    \"sdkVersion\": \"41.0.0\",\r\n    \"buildProfile\": \"continuous\",\r\n    \"distribution\": \"store\",\r\n    \"appIdentifier\": \"com.expo.example\",\r\n    \"gitCommitHash\": \"564b61ebdd403d28b5dc616a12ce160b91585b5b\",\r\n    \"gitCommitMessage\": \"Add home screen\",\r\n    \"runtimeVersion\": \"1.0.2\",\r\n    \"channel\": \"default\",\r\n    \"releaseChannel\": \"default\", \r\n    \"reactNativeVersion\": \"0.60.0\",\r\n    \"trackingContext\": {\r\n      \"platform\": \"android\",\r\n      \"account_id\": \"7c34cbf1-efd4-4964-84a1-c13ed297aaf9\",\r\n      \"dev_client\": false,\r\n      \"project_id\": \"bc0a82de-65a5-4497-ad86-54ff1f53edf7\",\r\n      \"tracking_id\": \"a3fdefa7-d129-42f2-9432-912050ab0f10\",\r\n      \"project_type\": \"managed\",\r\n      \"dev_client_version\": \"0.6.2\"\r\n    },\r\n    \"credentialsSource\": \"remote\",\r\n    \"isGitWorkingTreeDirty\": false,\r\n    \"message\": \"release build\",\r\n    \"runFromCI\": false\r\n  },\r\n  \"metrics\": {\r\n    \"memory\": 895070208,\r\n    \"buildEndTimestamp\": 1637747861168,\r\n    \"totalDiskReadBytes\": 692224,\r\n    \"buildStartTimestamp\": 1637747834445,\r\n    \"totalDiskWriteBytes\": 14409728,\r\n    \"cpuActiveMilliseconds\": 12117.540078,\r\n    \"buildEnqueuedTimestamp\": 1637747792476,\r\n    \"totalNetworkEgressBytes\": 355352,\r\n    \"totalNetworkIngressBytes\": 78781667\r\n  },\r\n  \"error\": {\r\n    \"message\": \"Unknown error. Please see logs.\",\r\n    \"errorCode\": \"UNKNOWN_ERROR\"\r\n  },\r\n  \"createdAt\": \"2021-11-24T09:53:01.155Z\",\r\n  \"enqueuedAt\": \"2021-11-24T09:53:01.155Z\",\r\n  \"provisioningStartedAt\": \"2021-11-24T09:54:01.155Z\",\r\n  \"workerStartedAt\": \"2021-11-24T09:54:11.155Z\",\r\n  \"completedAt\": \"2021-11-24T09:57:42.715Z\",\r\n  \"updatedAt\": \"2021-11-24T09:57:42.715Z\",\r\n  \"expirationDate\": \"2021-12-24T09:53:01.155Z\",\r\n  \"priority\": \"high\",\r\n  \"resourceClass\": \"android-n2-1.3-12\",\r\n  \"actualResourceClass\": \"android-n2-1.3-12\",\r\n  \"maxRetryTimeMinutes\": 3600\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/webhook",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"webhook"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CONFLUENCE - Get Page",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"domain\", \"domain\")\r",
+							"pm.environment.set(\"pageId\", 1)\r",
+							"pm.environment.set(\"userEmail\", \"user@example.com\")\r",
+							"pm.environment.set(\"userToken\", \"atlassian-user-token\")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "{{userEmail}}",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "{{userToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://{{domain}}.atlassian.net/wiki/rest/api/content/{{pageId}}?expand=body.storage",
+					"protocol": "https",
+					"host": [
+						"{{domain}}",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"wiki",
+						"rest",
+						"api",
+						"content",
+						"{{pageId}}"
+					],
+					"query": [
+						{
+							"key": "expand",
+							"value": "body.storage"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CONFLUENCE - Update Page",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"domain\", \"domain\")\r",
+							"pm.environment.set(\"pageId\", 1)\r",
+							"pm.environment.set(\"userEmail\", \"user@example.com\")\r",
+							"pm.environment.set(\"userToken\", \"atlassian-user-token\")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "{{userToken}}",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "{{userEmail}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"body\":{\"storage\":{\"representation\":\"storage\",\"value\":\"\\n\\t<ac:layout>\\n\\t\\t<ac:layout-section ac:type=\\\\\\\"fixed-width\\\\\\\" ac:breakout-mode=\\\\\\\"default\\\\\\\">\\n\\t\\t\\t<ac:layout-cell>\\n\\t\\t\\t\\t<h2>Review App</h2>\\n\\t\\t\\t</ac:layout-cell>\\n\\t\\t</ac:layout-section>\\n\\t\\t\\n\\t<ac:layout-section ac:type=\\\"two_equal\\\" ac:breakout-mode=\\\"default\\\">\\n\\t\\t<ac:layout-cell>\\n\\t\\t\\t<table data-layout=\\\"default\\\" ac:local-id=\\\"review-android\\\"></table>\\n\\t\\t</ac:layout-cell>\\n\\t\\t<ac:layout-cell>\\n\\t\\t<table data-layout=\\\"default\\\" ac:local-id=\\\"review-ios\\\"></table>\\n\\t\\t</ac:layout-cell>\\n\\t</ac:layout-section>\\n\\t\\t<ac:layout-section ac:type=\\\\\\\"fixed-width\\\\\\\" ac:breakout-mode=\\\\\\\"default\\\\\\\">\\n\\t\\t\\t<ac:layout-cell>\\n\\t\\t\\t\\t<h2>Continuous</h2>\\n\\t\\t\\t</ac:layout-cell>\\n\\t\\t</ac:layout-section>\\n\\t\\t\\n\\t<ac:layout-section ac:type=\\\"two_equal\\\" ac:breakout-mode=\\\"default\\\">\\n\\t\\t<ac:layout-cell>\\n\\t\\t\\t<table data-layout=\\\"default\\\" ac:local-id=\\\"continuous-android\\\"></table>\\n\\t\\t</ac:layout-cell>\\n\\t\\t<ac:layout-cell>\\n\\t\\t<table data-layout=\\\"default\\\" ac:local-id=\\\"continuous-ios\\\"></table>\\n\\t\\t</ac:layout-cell>\\n\\t</ac:layout-section>\\n\\t\\t<ac:layout-section ac:type=\\\\\\\"fixed-width\\\\\\\" ac:breakout-mode=\\\\\\\"default\\\\\\\">\\n\\t\\t\\t<ac:layout-cell>\\n\\t\\t\\t\\t<h2>Integration</h2>\\n\\t\\t\\t</ac:layout-cell>\\n\\t\\t</ac:layout-section>\\n\\t\\t\\n\\t<ac:layout-section ac:type=\\\"two_equal\\\" ac:breakout-mode=\\\"default\\\">\\n\\t\\t<ac:layout-cell>\\n\\t\\t\\t<table data-layout=\\\"default\\\" ac:local-id=\\\"staging-android\\\"></table>\\n\\t\\t</ac:layout-cell>\\n\\t\\t<ac:layout-cell>\\n\\t\\t<table data-layout=\\\"default\\\" ac:local-id=\\\"staging-ios\\\"></table>\\n\\t\\t</ac:layout-cell>\\n\\t</ac:layout-section>\\n\\t\\t<ac:layout-section ac:type=\\\\\\\"fixed-width\\\\\\\" ac:breakout-mode=\\\\\\\"default\\\\\\\">\\n\\t\\t\\t<ac:layout-cell>\\n\\t\\t\\t\\t<h2>Staging</h2>\\n\\t\\t\\t</ac:layout-cell>\\n\\t\\t</ac:layout-section>\\n\\t\\t\\n\\t<ac:layout-section ac:type=\\\"two_equal\\\" ac:breakout-mode=\\\"default\\\">\\n\\t\\t<ac:layout-cell>\\n\\t\\t\\t<table data-layout=\\\"default\\\" ac:local-id=\\\"integration-android\\\"></table>\\n\\t\\t</ac:layout-cell>\\n\\t\\t<ac:layout-cell>\\n\\t\\t<table data-layout=\\\"default\\\" ac:local-id=\\\"integration-ios\\\"></table>\\n\\t\\t</ac:layout-cell>\\n\\t</ac:layout-section>\\n\\t\\t<ac:layout-section ac:type=\\\\\\\"fixed-width\\\\\\\" ac:breakout-mode=\\\\\\\"default\\\\\\\">\\n\\t\\t\\t<ac:layout-cell>\\n\\t\\t\\t\\t<h2>Production</h2>\\n\\t\\t\\t</ac:layout-cell>\\n\\t\\t</ac:layout-section>\\n\\t\\t\\n\\t<ac:layout-section ac:type=\\\"two_equal\\\" ac:breakout-mode=\\\"default\\\">\\n\\t\\t<ac:layout-cell>\\n\\t\\t\\t<table data-layout=\\\"default\\\" ac:local-id=\\\"production-android\\\"></table>\\n\\t\\t</ac:layout-cell>\\n\\t\\t<ac:layout-cell>\\n\\t\\t<table data-layout=\\\"default\\\" ac:local-id=\\\"production-ios\\\"></table>\\n\\t\\t</ac:layout-cell>\\n\\t</ac:layout-section>\\n\\t</ac:layout>\"}},\"type\":\"page\",\"space\":{\"key\":\"BLOG\"},\"status\":\"current\",\"title\":\"EAS builds d'environnement\",\"version\":{\"message\":\"Init EAS builds template\",\"number\":24}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{domain}}.atlassian.net/wiki/rest/api/content/{{pageId}}",
+					"protocol": "https",
+					"host": [
+						"{{domain}}",
+						"atlassian",
+						"net"
+					],
+					"path": [
+						"wiki",
+						"rest",
+						"api",
+						"content",
+						"{{pageId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
