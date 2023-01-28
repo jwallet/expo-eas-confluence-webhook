@@ -5,18 +5,6 @@ import (
 	"strings"
 )
 
-func minify(template string) string {
-	minifier := strings.NewReplacer("\n", "", "\t", "")
-	return minifier.Replace(template)
-}
-
-func getPlatformText(platform string) string {
-	if platform == "android" {
-		return "Android"
-	}
-	return "iOS"
-}
-
 func getBuildTemplate(key string, platform string, version string, sdk string, buildURL string, completedAt string, expiresAt string) string {
 	platformText := getPlatformText(platform)
 	template := fmt.Sprintf(`
@@ -173,3 +161,15 @@ func getDefaultTemplate() string {
 // 	</table>`, environment+"-"+platform, platformText, version, sdk, buildURL, buildURL, buildURL, completedAt, expiresAt)
 // 	return minify(template)
 // }
+
+func minify(template string) string {
+	minifier := strings.NewReplacer("\n", "", "\t", "")
+	return minifier.Replace(template)
+}
+
+func getPlatformText(platform string) string {
+	if platform == "android" {
+		return "Android"
+	}
+	return "iOS"
+}

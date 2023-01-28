@@ -15,13 +15,6 @@ type Build struct {
 	ExpiresAt   string `json:"expiresAt,omitempty"`
 }
 
-var buildMapper = map[Environment]Build{
-	continuous:  {},
-	integration: {},
-	staging:     {},
-	review:      {},
-}
-
 func webhookHandler(context ExpoBuild) error {
 	templateTableKey := string(context.Metadata.BuildProfile) + "-" + string(context.Platform)
 	build := Build{
