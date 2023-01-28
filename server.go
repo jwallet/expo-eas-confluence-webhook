@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
-	"net"
 	"net/http"
 	"strings"
 )
@@ -91,13 +90,16 @@ func setupServer() {
 		}
 	})
 
-	l, err := net.Listen("tcp", fmt.Sprintf("localhost:%v", PORT))
-	if err != nil {
-		log.Fatal(err)
+	// Determine port for HTTP service.
+	port := PORT
+	fmt.Print(port)
+	if port == 0 {
+		port = 8080
+		log.Printf("defaulting to port %v", port)
 	}
 
-	log.Printf("Server listening on localhost:%v", PORT)
-	go func() {
-		log.Fatal(http.Serve(l, nil))
-	}()
+	log.Printf("Server listening on localhost:%v", port)
+	if err := http.ListenAndServe(":"+fmt.Sprint(port), nil); err != nil {
+		log.Fatal(err)
+	}
 }
