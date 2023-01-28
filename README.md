@@ -1,6 +1,6 @@
 # Expo EAS-Confluence webhook
 
-### EAS build alert to Confluence Cloud
+### Publish EAS builds to Confluence Cloud
 
 Updates a dedicated [Atlassian Confluence Cloud page](https://support.atlassian.com/confluence-cloud/docs/create-edit-and-publish-a-page/) from an [EAS build alert](https://docs.expo.dev/eas/webhooks/).
 
