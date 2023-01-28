@@ -29,11 +29,13 @@ func getEnvInt(key string) int {
 
 func logEnvs() {
 	log.Printf(`Environment variables
+	- PORT: %v
 	- EXPO_HMAC_SECRET: %v
 	- CONFLUENCE_CLOUD_DOMAIN: %v
 	- CONFLUENCE_TOKEN: %v
 	- CONFLUENCE_USER: %v
 	- CONFLUENCE_PAGE_ID: %v`,
+		PORT,
 		EXPO_HMAC_SECRET,
 		CONFLUENCE_CLOUD_DOMAIN,
 		CONFLUENCE_TOKEN,
