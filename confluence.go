@@ -80,7 +80,6 @@ func putConfluencePage(pageId int, content *ConfluencePage) error {
 	enc := json.NewEncoder(&payload)
 	enc.SetEscapeHTML(false)
 	enc.Encode(&content)
-	fmt.Println(&payload)
 
 	url := fmt.Sprintf("https://%s.atlassian.net/wiki/rest/api/content/%v", CONFLUENCE_CLOUD_DOMAIN, pageId)
 

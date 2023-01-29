@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"regexp"
 )
@@ -18,7 +19,7 @@ type Build struct {
 func webhookHandler(context ExpoBuild) error {
 	templateTableKey := string(context.Metadata.BuildProfile) + "-" + string(context.Platform)
 	build := Build{
-		Platform:    string(context.Metadata.BuildProfile),
+		Platform:    string(context.Platform),
 		Key:         templateTableKey,
 		Id:          context.Id,
 		Version:     context.Metadata.AppVersion,
@@ -26,6 +27,9 @@ func webhookHandler(context ExpoBuild) error {
 		CompletedAt: context.CompletedAt,
 		ExpiresAt:   context.ExpirationDate,
 	}
+
+	json, _ := json.Marshal(build)
+	fmt.Println(string(json))
 
 	buildTemplate := generateBuildTemplate(build)
 
