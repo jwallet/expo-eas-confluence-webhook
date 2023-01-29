@@ -18,6 +18,7 @@ var CONFLUENCE_PAGE_ID int = getEnvInt("CONFLUENCE_PAGE_ID")
 type Environment string
 
 // List of available environments
+// If it changes, update the default template in `template.go`
 const (
 	review      Environment = "review"
 	continuous  Environment = "continuous"
