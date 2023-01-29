@@ -67,46 +67,19 @@ func getDefaultEnvironmentTemplate(environment string) string {
 }
 
 func getDefaultTemplate() string {
-	template := fmt.Sprintf(`
-	<ac:layout>
-		<ac:layout-section ac:type="fixed-width" ac:breakout-mode="default">
-			<ac:layout-cell>
-				<h2>Review App</h2>
-			</ac:layout-cell>
-		</ac:layout-section>
-		%v
-		<ac:layout-section ac:type="fixed-width" ac:breakout-mode="default">
-			<ac:layout-cell>
-				<h2>Continuous</h2>
-			</ac:layout-cell>
-		</ac:layout-section>
-		%v
-		<ac:layout-section ac:type="fixed-width" ac:breakout-mode="default">
-			<ac:layout-cell>
-				<h2>Integration</h2>
-			</ac:layout-cell>
-		</ac:layout-section>
-		%v
-		<ac:layout-section ac:type="fixed-width" ac:breakout-mode="default">
-			<ac:layout-cell>
-				<h2>Staging</h2>
-			</ac:layout-cell>
-		</ac:layout-section>
-		%v
-		<ac:layout-section ac:type="fixed-width" ac:breakout-mode="default">
-			<ac:layout-cell>
-				<h2>Production</h2>
-			</ac:layout-cell>
-		</ac:layout-section>
-		%v
-	</ac:layout>
-`,
-		getDefaultEnvironmentTemplate(string(review)),
-		getDefaultEnvironmentTemplate(string(continuous)),
-		getDefaultEnvironmentTemplate(string(staging)),
-		getDefaultEnvironmentTemplate(string(integration)),
-		getDefaultEnvironmentTemplate(string(production)))
-	return minify(template)
+	var template = ""
+	for environment, title := range environments {
+		var env = string(environment)
+		template = template + fmt.Sprintf(`
+			<ac:layout-section ac:type="fixed-width" ac:breakout-mode="default">
+				<ac:layout-cell>
+					<h2>%v</h2>
+				</ac:layout-cell>
+			</ac:layout-section>
+			%v
+		`, title, getDefaultEnvironmentTemplate(env))
+	}
+	return minify(fmt.Sprintf(`<ac:layout>%v</ac:layout>`, template))
 }
 
 func minify(template string) string {

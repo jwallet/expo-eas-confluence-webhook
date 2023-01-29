@@ -6,27 +6,6 @@ import (
 	"strconv"
 )
 
-var EXPO_HMAC_SECRET = os.Getenv("EXPO_HMAC_SECRET")
-
-var PORT int = getEnvInt("PORT")
-
-var CONFLUENCE_CLOUD_DOMAIN = os.Getenv("CONFLUENCE_CLOUD_DOMAIN")
-var CONFLUENCE_TOKEN = os.Getenv("CONFLUENCE_TOKEN")
-var CONFLUENCE_USER = os.Getenv("CONFLUENCE_USER")
-var CONFLUENCE_PAGE_ID int = getEnvInt("CONFLUENCE_PAGE_ID")
-
-type Environment string
-
-// List of available environments
-// If it changes, update the default template in `template.go`
-const (
-	review      Environment = "review"
-	continuous  Environment = "continuous"
-	integration Environment = "integration"
-	staging     Environment = "staging"
-	production  Environment = "production"
-)
-
 func getEnvInt(key string) int {
 	var variable string = os.Getenv(key)
 	if len(variable) == 0 {

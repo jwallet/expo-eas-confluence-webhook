@@ -1,0 +1,32 @@
+package main
+
+import "os"
+
+type Environment string
+
+var EXPO_HMAC_SECRET = os.Getenv("EXPO_HMAC_SECRET")
+
+var PORT int = getEnvInt("PORT")
+
+var CONFLUENCE_CLOUD_DOMAIN = os.Getenv("CONFLUENCE_CLOUD_DOMAIN")
+var CONFLUENCE_TOKEN = os.Getenv("CONFLUENCE_TOKEN")
+var CONFLUENCE_USER = os.Getenv("CONFLUENCE_USER")
+var CONFLUENCE_PAGE_ID int = getEnvInt("CONFLUENCE_PAGE_ID")
+
+// List of available environments
+const (
+	review      Environment = "review"
+	continuous  Environment = "continuous"
+	integration Environment = "integration"
+	staging     Environment = "staging"
+	production  Environment = "production"
+)
+
+// Titles related to environments -- Used for Confluence
+var environments = map[Environment]string{
+	review:      "Review App",
+	continuous:  "Continuous",
+	integration: "Integration",
+	staging:     "Staging",
+	production:  "Production",
+}
