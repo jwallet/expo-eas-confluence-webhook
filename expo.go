@@ -36,13 +36,3 @@ type Metadata struct {
 	BuildProfile    Environment `json:"buildProfile"`
 	SdkVersion      string      `json:"sdkVersion"`
 }
-
-type Environment string
-
-const (
-	review      Environment = "review"
-	continuous  Environment = "continuous"
-	integration Environment = "integration"
-	staging     Environment = "staging"
-	production  Environment = "production"
-)
