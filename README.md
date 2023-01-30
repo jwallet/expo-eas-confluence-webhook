@@ -2,7 +2,7 @@
 
 ### Publish Expo builds to Confluence Cloud
 
-Publish Expo builds to a dedicated [Atlassian Confluence Cloud page](https://support.atlassian.com/confluence-cloud/docs/create-edit-and-publish-a-page/) using an [EAS webhook alert](https://docs.expo.dev/eas/webhooks/).
+Publish [Expo builds](https://expo.dev) to a dedicated [Atlassian Confluence Cloud page](https://support.atlassian.com/confluence-cloud/docs/create-edit-and-publish-a-page/) using an [EAS webhook alert](https://docs.expo.dev/eas/webhooks/).
 
 Updates the page by inserting the build infos and a QRCode for each build environment (e.g.: continuous, staging, production) and platform (android, iOS) to the proper section of the page.
 
@@ -21,7 +21,7 @@ Updates the page by inserting the build infos and a QRCode for each build enviro
 - **CONFLUENCE_PAGE_ID**: the atlassian confluence page id used to update, e.g.: https://DOMAIN.atlassian.net/wiki/spaces/SPACE/pages/PAGEID
 
 #### Test the webservice
-Use [Postman](https://www.postman.com/downloads/) and open the `endpoints.postman_collection.json` file to test the endpoints locally or in production.
+Use [Postman](https://www.postman.com/downloads/) and open the `endpoints.postman_collection.json` file to test the endpoints locally or in production. See the `pre-script` section of every request to set your environment variables, eventually you can set those in your global environment vars in Postman.
 
 #### Embed the generated page into another page
 
