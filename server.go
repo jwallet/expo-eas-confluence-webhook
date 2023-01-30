@@ -100,10 +100,10 @@ func setupServer() {
 	fmt.Print(port)
 	if port == 0 {
 		port = 8080
-		log.Printf("defaulting to port %v", port)
+		log.Printf("Defaulting to port %v\n", port)
 	}
 
-	log.Printf("Server listening on localhost:%v", port)
+	log.Printf("Server listening on localhost:%v\n", port)
 	if err := http.ListenAndServe(":"+fmt.Sprint(port), nil); err != nil {
 		log.Fatal(err)
 	}
