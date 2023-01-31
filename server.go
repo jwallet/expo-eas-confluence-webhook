@@ -39,7 +39,7 @@ func setupServer() {
 		digest := hmac.New(sha1.New, []byte(EXPO_HMAC_SECRET))
 		digest.Write(body)
 		receivedSignature := r.Header.Get("expo-signature")
-		log.Printf("gaga %v", receivedSignature)
+		log.Printf("Received signature: %v", receivedSignature)
 		expectedSignature := hex.EncodeToString(digest.Sum(nil))
 		if expectedSignature != receivedSignature {
 			log.Printf("Invalid HMAC, received %v, expected %v", receivedSignature, expectedSignature)
