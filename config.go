@@ -15,7 +15,7 @@ var CONFLUENCE_PAGE_ID int = getEnvInt("CONFLUENCE_PAGE_ID")
 
 // List of available environments
 const (
-	review      Environment = "review"
+	review      Environment = "reviewapp"
 	continuous  Environment = "continuous"
 	integration Environment = "integration"
 	staging     Environment = "staging"
