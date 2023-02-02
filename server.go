@@ -40,7 +40,7 @@ func setupServer() {
 		digest.Write(body)
 		receivedSignature := r.Header.Get("expo-signature")
 		log.Printf("Received signature: %v", receivedSignature)
-		expectedSignature := hex.EncodeToString(digest.Sum(nil))
+		expectedSignature := fmt.Sprintf("sha1=%v", hex.EncodeToString(digest.Sum(nil)))
 		if expectedSignature != receivedSignature {
 			log.Printf("Invalid HMAC, received %v, expected %v", receivedSignature, expectedSignature)
 			w.WriteHeader(http.StatusUnauthorized)
