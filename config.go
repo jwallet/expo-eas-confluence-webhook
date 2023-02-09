@@ -12,6 +12,7 @@ var CONFLUENCE_CLOUD_DOMAIN = os.Getenv("CONFLUENCE_CLOUD_DOMAIN")
 var CONFLUENCE_TOKEN = os.Getenv("CONFLUENCE_TOKEN")
 var CONFLUENCE_USER = os.Getenv("CONFLUENCE_USER")
 var CONFLUENCE_PAGE_ID int = getEnvInt("CONFLUENCE_PAGE_ID")
+var CONFLUENCE_SPACE = os.Getenv("CONFLUENCE_SPACE")
 
 // List of available environments
 const (

@@ -115,7 +115,7 @@ func generateConfluenceUpdatePagePayload(previousPage *ConfluencePage, messageVe
 		Status:   "current",
 		Title:    previousPage.Title,
 		Space: PageSpace{
-			Key: "BLOG",
+			Key: CONFLUENCE_SPACE,
 		},
 		Body: PageBody{
 			Storage: PageStorage{
