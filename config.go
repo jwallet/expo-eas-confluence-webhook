@@ -16,7 +16,7 @@ var CONFLUENCE_SPACE = os.Getenv("CONFLUENCE_SPACE")
 
 // List of available environments
 const (
-	review      Environment = "review"
+	review      Environment = "reviewapp"
 	continuous  Environment = "continuous"
 	integration Environment = "integration"
 	staging     Environment = "staging"
