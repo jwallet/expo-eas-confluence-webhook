@@ -64,6 +64,7 @@ func getConfluencePage(pageId int) (*ConfluencePage, error) {
 		return &currentPage, err
 	}
 
+	client.CloseIdleConnections()
 	log.Println("Casting GET confluence page request")
 	json.Unmarshal(body, &currentPage)
 	// log.Println(currentPage.Body.Storage.Value)
@@ -102,6 +103,7 @@ func putConfluencePage(pageId int, content *ConfluencePage) error {
 	}
 
 	defer resp.Body.Close()
+	client.CloseIdleConnections()
 
 	return nil
 }
