@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"regexp"
 )
 
@@ -29,7 +30,7 @@ func webhookHandler(context ExpoBuild) error {
 	}
 
 	json, _ := json.Marshal(build)
-	fmt.Println(string(json))
+	log.Println(string(json))
 
 	buildTemplate := generateBuildTemplate(build)
 
@@ -37,7 +38,7 @@ func webhookHandler(context ExpoBuild) error {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("Got '%v' Page from Confluence\n", previousPage.Title)
+	log.Printf("Got '%v' Page from Confluence\n", previousPage.Title)
 
 	messageVersion := fmt.Sprintf("EAS build %v finished", context.Id)
 	storageValue := updateStorageValueWithNewBuildTemplate(previousPage.Body.Storage.Value, buildTemplate, templateTableKey)
