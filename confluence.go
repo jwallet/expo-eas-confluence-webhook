@@ -36,7 +36,7 @@ type ConfluencePage struct {
 }
 
 func getConfluencePage(pageId int) (*ConfluencePage, error) {
-	client := &http.Client{}
+	client := getClient()
 	var currentPage ConfluencePage
 
 	url := fmt.Sprintf("https://%s.atlassian.net/wiki/rest/api/content/%v?expand=version,body.storage", CONFLUENCE_CLOUD_DOMAIN, pageId)
@@ -71,7 +71,7 @@ func getConfluencePage(pageId int) (*ConfluencePage, error) {
 }
 
 func putConfluencePage(pageId int, content *ConfluencePage) error {
-	client := &http.Client{}
+	client := getClient()
 
 	// fmt.Println(content.Body.Storage.Value)
 	fmt.Println("Casting to JSON PUT confluence page")
