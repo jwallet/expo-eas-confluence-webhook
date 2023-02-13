@@ -6,12 +6,12 @@ type Environment string
 
 var EXPO_HMAC_SECRET = os.Getenv("EXPO_HMAC_SECRET")
 
-var PORT int = getEnvInt("PORT")
+var PORT int = GetEnvInt("PORT")
 
 var CONFLUENCE_CLOUD_DOMAIN = os.Getenv("CONFLUENCE_CLOUD_DOMAIN")
 var CONFLUENCE_TOKEN = os.Getenv("CONFLUENCE_TOKEN")
 var CONFLUENCE_USER = os.Getenv("CONFLUENCE_USER")
-var CONFLUENCE_PAGE_ID int = getEnvInt("CONFLUENCE_PAGE_ID")
+var CONFLUENCE_PAGE_ID int = GetEnvInt("CONFLUENCE_PAGE_ID")
 var CONFLUENCE_SPACE = os.Getenv("CONFLUENCE_SPACE")
 
 // List of available environments

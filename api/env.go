@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func getEnvInt(key string) int {
+func GetEnvInt(key string) int {
 	var variable string = os.Getenv(key)
 	if len(variable) == 0 {
 		variable = "0"
@@ -18,7 +18,7 @@ func getEnvInt(key string) int {
 	return val
 }
 
-func logEnvs() {
+func LogEnvs() {
 	log.Printf(`Environment variables
 	- PORT: %v
 	- EXPO_HMAC_SECRET: %v

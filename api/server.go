@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-func setupServer() {
+func SetupServer() {
 	log.Println("Setting up server")
 
 	mux := http.NewServeMux()
@@ -57,7 +57,7 @@ func setupServer() {
 
 		if expoContext.Status == "finished" {
 			log.Println("Received build")
-			err := webhookHandler(expoContext)
+			err := WebhookHandler(expoContext)
 			if err != nil {
 				log.Printf("An error occured: %v\n", err)
 				w.WriteHeader(http.StatusConflict)
@@ -81,18 +81,18 @@ func setupServer() {
 
 		log.Println("Init confluence page")
 
-		previousPage, err := getConfluencePage(CONFLUENCE_PAGE_ID)
+		previousPage, err := GetConfluencePage(CONFLUENCE_PAGE_ID)
 		if err != nil {
 			log.Printf("An error occured %v\n", err)
 			w.WriteHeader(http.StatusForbidden)
 		}
 
-		template := getDefaultTemplate()
+		template := GetDefaultTemplate()
 		minifier := strings.NewReplacer("\n", "", "\t", "")
 		minifiedTemplate := minifier.Replace(template)
-		page := generateConfluenceUpdatePagePayload(previousPage, "Init EAS builds template", minifiedTemplate)
+		page := GenerateConfluenceUpdatePagePayload(previousPage, "Init EAS builds template", minifiedTemplate)
 
-		err = putConfluencePage(CONFLUENCE_PAGE_ID, page)
+		err = PutConfluencePage(CONFLUENCE_PAGE_ID, page)
 		if err != nil {
 			log.Printf("An error occured %v\n", err)
 			w.WriteHeader(http.StatusForbidden)

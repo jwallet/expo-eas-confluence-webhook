@@ -17,7 +17,7 @@ type Build struct {
 	ExpiresAt   string `json:"expiresAt,omitempty"`
 }
 
-func webhookHandler(context ExpoBuild) error {
+func WebhookHandler(context ExpoBuild) error {
 	templateTableKey := string(context.Metadata.BuildProfile) + "-" + string(context.Platform)
 	build := Build{
 		Platform:    string(context.Platform),
@@ -34,7 +34,7 @@ func webhookHandler(context ExpoBuild) error {
 
 	buildTemplate := generateBuildTemplate(build)
 
-	previousPage, err := getConfluencePage(CONFLUENCE_PAGE_ID)
+	previousPage, err := GetConfluencePage(CONFLUENCE_PAGE_ID)
 	if err != nil {
 		return err
 	}
@@ -45,14 +45,14 @@ func webhookHandler(context ExpoBuild) error {
 	if storageValue == "" {
 		return fmt.Errorf("Did not find any valid <table> tag.")
 	}
-	nextPage := generateConfluenceUpdatePagePayload(previousPage, messageVersion, storageValue)
+	nextPage := GenerateConfluenceUpdatePagePayload(previousPage, messageVersion, storageValue)
 
-	return putConfluencePage(CONFLUENCE_PAGE_ID, nextPage)
+	return PutConfluencePage(CONFLUENCE_PAGE_ID, nextPage)
 }
 
 func generateBuildTemplate(build Build) string {
 	buildURL := "https://expo.dev/accounts/guay/projects/guay/builds/" + build.Id
-	return getBuildTemplate(build.Key, build.Platform, build.Version, build.Sdk, buildURL, build.CompletedAt, build.ExpiresAt)
+	return GetBuildTemplate(build.Key, build.Platform, build.Version, build.Sdk, buildURL, build.CompletedAt, build.ExpiresAt)
 }
 
 func updateStorageValueWithNewBuildTemplate(storageValue string, buildTemplate string, tableKey string) string {

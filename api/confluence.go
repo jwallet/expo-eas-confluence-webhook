@@ -36,8 +36,8 @@ type ConfluencePage struct {
 	Version  PageVersion `json:"version"`
 }
 
-func getConfluencePage(pageId int) (*ConfluencePage, error) {
-	client := getClient()
+func GetConfluencePage(pageId int) (*ConfluencePage, error) {
+	client := GetClient()
 	var currentPage ConfluencePage
 
 	url := fmt.Sprintf("https://%s.atlassian.net/wiki/rest/api/content/%v?expand=version,body.storage", CONFLUENCE_CLOUD_DOMAIN, pageId)
@@ -72,8 +72,8 @@ func getConfluencePage(pageId int) (*ConfluencePage, error) {
 	return &currentPage, nil
 }
 
-func putConfluencePage(pageId int, content *ConfluencePage) error {
-	client := getClient()
+func PutConfluencePage(pageId int, content *ConfluencePage) error {
+	client := GetClient()
 
 	// log.Println(content.Body.Storage.Value)
 	log.Println("Casting to JSON PUT confluence page")
@@ -108,7 +108,7 @@ func putConfluencePage(pageId int, content *ConfluencePage) error {
 	return nil
 }
 
-func generateConfluenceUpdatePagePayload(previousPage *ConfluencePage, messageVersion string, storageValue string) *ConfluencePage {
+func GenerateConfluenceUpdatePagePayload(previousPage *ConfluencePage, messageVersion string, storageValue string) *ConfluencePage {
 	return &ConfluencePage{
 		Version: PageVersion{
 			Number:  previousPage.Version.Number + 1,

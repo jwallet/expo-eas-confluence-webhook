@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func getBuildTemplate(key string, platform string, version string, sdk string, buildURL string, completedAt string, expiresAt string) string {
+func GetBuildTemplate(key string, platform string, version string, sdk string, buildURL string, completedAt string, expiresAt string) string {
 	platformText := getPlatformText(platform)
 	template := fmt.Sprintf(`
 	<table data-layout="default" ac:local-id="%v">
@@ -56,8 +56,8 @@ func getBuildTemplate(key string, platform string, version string, sdk string, b
 }
 
 func getDefaultEnvironmentTemplate(environment string) string {
-	android := getBuildTemplate(environment+"-android", "android", "1.0", "1.0", "http://httpstat.us/200", "2023-01-01T12:00:00.000Z", "2023-01-01T12:00:00.000Z")
-	ios := getBuildTemplate(environment+"-ios", "ios", "1.0", "1.0", "http://httpstat.us/200", "2023-01-01T12:00:00.000Z", "2023-01-01T12:00:00.000Z")
+	android := GetBuildTemplate(environment+"-android", "android", "1.0", "1.0", "http://httpstat.us/200", "2023-01-01T12:00:00.000Z", "2023-01-01T12:00:00.000Z")
+	ios := GetBuildTemplate(environment+"-ios", "ios", "1.0", "1.0", "http://httpstat.us/200", "2023-01-01T12:00:00.000Z", "2023-01-01T12:00:00.000Z")
 	template := fmt.Sprintf(`
 	<ac:layout-section ac:type="two_equal" ac:breakout-mode="default">
 		<ac:layout-cell>%v</ac:layout-cell>
@@ -66,7 +66,7 @@ func getDefaultEnvironmentTemplate(environment string) string {
 	return minify(template)
 }
 
-func getDefaultTemplate() string {
+func GetDefaultTemplate() string {
 	var template = ""
 	for environment, title := range environments {
 		var env = string(environment)
