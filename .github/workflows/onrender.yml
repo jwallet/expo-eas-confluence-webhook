@@ -1,0 +1,17 @@
+name: OnRender
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to onRender
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: ${{ secrets.ONRENDER_SERVICE_ID }}
+          api-key: ${{ secrets.ONRENDER_API_KEY }}
