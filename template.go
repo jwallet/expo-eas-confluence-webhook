@@ -52,7 +52,7 @@ func getBuildTemplate(key string, platform string, version string, sdk string, b
 			</tr>
 			<tr>
 				<td colspan="3">
-					<p>Completed at: <strong>%v</strong></p>
+					<p>Expires at: <strong>%v</strong></p>
 				</td>
 			</tr>
 		</tbody>
