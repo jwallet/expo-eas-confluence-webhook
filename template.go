@@ -50,8 +50,13 @@ func getBuildTemplate(key string, platform string, version string, sdk string, b
 					<p>Completed at: <strong>%v</strong></p>
 				</td>
 			</tr>
+			<tr>
+				<td colspan="3">
+					<p>Completed at: <strong>%v</strong></p>
+				</td>
+			</tr>
 		</tbody>
-	</table>`, key, platformText, version, sdk, buildURL, buildURL, buildURL, completedAt)
+	</table>`, key, platformText, version, sdk, buildURL, buildURL, buildURL, completedAt, expiresAt)
 	return minify(template)
 }
 
