@@ -9,10 +9,9 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"strings"
 )
 
-func setupServer() {
+func SetupServer() {
 	log.Println("Setting up server")
 
 	mux := http.NewServeMux()
@@ -57,7 +56,7 @@ func setupServer() {
 
 		if expoContext.Status == "finished" {
 			log.Println("Received build")
-			err := webhookHandler(expoContext)
+			err := Webhook(expoContext)
 			if err != nil {
 				log.Printf("An error occured: %v\n", err)
 				w.WriteHeader(http.StatusConflict)
@@ -71,28 +70,41 @@ func setupServer() {
 		}
 	})
 
-	mux.HandleFunc("/init", func(w http.ResponseWriter, r *http.Request) {
-
+	mux.HandleFunc("/inject", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/text")
 		if r.Method != "POST" {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 			return
 		}
 
-		log.Println("Init confluence page")
+		log.Println("Injecting a build manually")
 
-		previousPage, err := getConfluencePage(CONFLUENCE_PAGE_ID)
+		var build Build
+		body, err := ioutil.ReadAll(r.Body)
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		json.Unmarshal(body, &build)
+
+		err = PushBuild(build)
 		if err != nil {
 			log.Printf("An error occured %v\n", err)
 			w.WriteHeader(http.StatusForbidden)
+		} else {
+			w.WriteHeader(http.StatusOK)
 		}
 
-		template := getDefaultTemplate()
-		minifier := strings.NewReplacer("\n", "", "\t", "")
-		minifiedTemplate := minifier.Replace(template)
-		page := generateConfluenceUpdatePagePayload(previousPage, "Init EAS builds template", minifiedTemplate)
+	})
 
-		err = putConfluencePage(CONFLUENCE_PAGE_ID, page)
+	mux.HandleFunc("/init", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/text")
+		if r.Method != "POST" {
+			w.WriteHeader(http.StatusMethodNotAllowed)
+			return
+		}
+
+		err := Init()
 		if err != nil {
 			log.Printf("An error occured %v\n", err)
 			w.WriteHeader(http.StatusForbidden)

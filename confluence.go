@@ -36,19 +36,18 @@ type ConfluencePage struct {
 	Version  PageVersion `json:"version"`
 }
 
-func getConfluencePage(pageId int) (*ConfluencePage, error) {
-	client := getClient()
+func GetConfluencePage(pageId int) (*ConfluencePage, error) {
+	client := GetClient()
 	var currentPage ConfluencePage
 
 	url := fmt.Sprintf("https://%s.atlassian.net/wiki/rest/api/content/%v?expand=version,body.storage", CONFLUENCE_CLOUD_DOMAIN, pageId)
-	log.Printf("Building GET confluence page request %s\n", url)
+	log.Printf("Sending GET confluence page request %s\n", url)
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return &currentPage, err
 	}
 	req.SetBasicAuth(CONFLUENCE_USER, CONFLUENCE_TOKEN)
 
-	log.Println("Sending GET confluence page request")
 	resp, err := client.Do(req)
 	if resp.StatusCode != 200 {
 		return &currentPage, fmt.Errorf("GET confluence page Failed %v", resp.StatusCode)
@@ -58,25 +57,20 @@ func getConfluencePage(pageId int) (*ConfluencePage, error) {
 	}
 	defer resp.Body.Close()
 
-	log.Println("Reading GET confluence page request")
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return &currentPage, err
 	}
 
 	client.CloseIdleConnections()
-	log.Println("Casting GET confluence page request")
 	json.Unmarshal(body, &currentPage)
-	// log.Println(currentPage.Body.Storage.Value)
 
 	return &currentPage, nil
 }
 
-func putConfluencePage(pageId int, content *ConfluencePage) error {
-	client := getClient()
+func PutConfluencePage(pageId int, content *ConfluencePage) error {
+	client := GetClient()
 
-	// log.Println(content.Body.Storage.Value)
-	log.Println("Casting to JSON PUT confluence page")
 	var payload bytes.Buffer
 
 	enc := json.NewEncoder(&payload)
@@ -85,7 +79,6 @@ func putConfluencePage(pageId int, content *ConfluencePage) error {
 
 	url := fmt.Sprintf("https://%s.atlassian.net/wiki/rest/api/content/%v", CONFLUENCE_CLOUD_DOMAIN, pageId)
 
-	log.Println("Building PUT confluence page request")
 	req, err := http.NewRequest("PUT", url, &payload)
 	req.Header.Add("content-type", "application/json")
 	req.SetBasicAuth(CONFLUENCE_USER, CONFLUENCE_TOKEN)
@@ -93,7 +86,6 @@ func putConfluencePage(pageId int, content *ConfluencePage) error {
 		return err
 	}
 
-	log.Println("Sending PUT confluence page request")
 	resp, err := client.Do(req)
 	if err != nil {
 		return err
@@ -108,7 +100,7 @@ func putConfluencePage(pageId int, content *ConfluencePage) error {
 	return nil
 }
 
-func generateConfluenceUpdatePagePayload(previousPage *ConfluencePage, messageVersion string, storageValue string) *ConfluencePage {
+func GenerateConfluenceUpdatePagePayload(previousPage *ConfluencePage, messageVersion string, storageValue string) *ConfluencePage {
 	return &ConfluencePage{
 		Version: PageVersion{
 			Number:  previousPage.Version.Number + 1,

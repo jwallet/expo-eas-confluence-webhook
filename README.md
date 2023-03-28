@@ -15,7 +15,8 @@ Updates the page by inserting the build infos and a QRCode for each build enviro
 #### Endpoints
 - `GET /healthcheck` Valid if service is up
 - `POST /init` Updates the whole Confluence page with a default layout. The default layout is needed to be able to insert new build from `/webhook`
-- `POST /webhook` Send a Expo build payload to be added to Confluence
+- `POST /webhook` Send an `ExpoBuild` payload (see `expo.go`) to update the Confluence page
+- `POST /inject` Manually send the Confluence `Build` payload (see `handlers.go`) to update the Confluence page
 
 #### Environment variables
 - **PORT**: the host exposed port for this webservice to listen on, defaults on `8080`

@@ -18,7 +18,7 @@ func getEnvInt(key string) int {
 	return val
 }
 
-func logEnvs() {
+func LogEnvs() {
 	log.Printf(`Environment variables
 	- PORT: %v
 	- EXPO_HMAC_SECRET: %v
