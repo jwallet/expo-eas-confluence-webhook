@@ -5,10 +5,10 @@ import (
 	"strings"
 )
 
-func getBuildTemplate(key string, platform string, version string, sdk string, buildURL string, completedAt string, expiresAt string) string {
+func GetBuildTemplate(key string, platform string, version string, sdk string, buildURL string, completedAt string, expiresAt string) string {
 	platformText := getPlatformText(platform)
 	template := fmt.Sprintf(`
-	<table data-layout="default" ac:local-id="%v">
+	<table data-layout="default">
 		<colgroup>
 			<col style="width: 150.0px;" />
 			<col style="width: 60.0px;" />
@@ -31,7 +31,7 @@ func getBuildTemplate(key string, platform string, version string, sdk string, b
 					<ac:structured-macro ac:name="iframe" ac:schema-version="1" data-layout="default">
 						<ac:parameter ac:name="longdesc">Scan QR Code to install</ac:parameter>
 						<ac:parameter ac:name="scrolling">no</ac:parameter>
-						<ac:parameter ac:name="src"><ri:url ri:value="https://api.qrserver.com/v1/create-qr-code?size=200x200&amp;data=%v" /></ac:parameter>
+						<ac:parameter ac:name="src"><ri:url ri:value="https://api.qrserver.com/create-qr-code?size=200x200&amp;data=%v" /></ac:parameter>
 						<ac:parameter ac:name="width">200</ac:parameter>
 						<ac:parameter ac:name="frameborder">hide</ac:parameter>
 						<ac:parameter ac:name="align">middle</ac:parameter>
@@ -61,8 +61,8 @@ func getBuildTemplate(key string, platform string, version string, sdk string, b
 }
 
 func getDefaultEnvironmentTemplate(environment string) string {
-	android := getBuildTemplate(environment+"-android", "android", "1.0", "1.0", "http://httpstat.us/200", "2023-01-01T12:00:00.000Z", "2023-01-01T12:00:00.000Z")
-	ios := getBuildTemplate(environment+"-ios", "ios", "1.0", "1.0", "http://httpstat.us/200", "2023-01-01T12:00:00.000Z", "2023-01-01T12:00:00.000Z")
+	android := GetBuildTemplate("android", "1.0", "1.0", "http://httpstat.us/200", "2023-01-01T12:00:00.000Z", "2023-01-01T12:00:00.000Z")
+	ios := GetBuildTemplate("ios", "1.0", "1.0", "http://httpstat.us/200", "2023-01-01T12:00:00.000Z", "2023-01-01T12:00:00.000Z")
 	template := fmt.Sprintf(`
 	<ac:layout-section ac:type="two_equal" ac:breakout-mode="default">
 		<ac:layout-cell>%v</ac:layout-cell>
@@ -71,7 +71,7 @@ func getDefaultEnvironmentTemplate(environment string) string {
 	return minify(template)
 }
 
-func getDefaultTemplate() string {
+func GetDefaultTemplate() string {
 	var template = ""
 	for environment, title := range environments {
 		var env = string(environment)

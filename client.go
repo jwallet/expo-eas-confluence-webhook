@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func getClient() *http.Client {
+func GetClient() *http.Client {
 	t := http.DefaultTransport.(*http.Transport).Clone()
 	t.DisableKeepAlives = true
 

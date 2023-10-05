@@ -30,6 +30,17 @@ type Artifact struct {
 	Build string `json:"build"`
 }
 
+type Environment string
+
+// List of available environments
+const (
+	Review      Environment = "reviewapp"
+	Continuous  Environment = "continuous"
+	Integration Environment = "integration"
+	Staging     Environment = "staging"
+	Production  Environment = "production"
+)
+
 type Metadata struct {
 	AppVersion      string      `json:"appVersion"`
 	AppBuildVersion string      `json:"appBuildVersion"`

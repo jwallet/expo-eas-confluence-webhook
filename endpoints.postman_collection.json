@@ -123,6 +123,55 @@
 			"response": []
 		},
 		{
+			"name": "PROD - Inject Build",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"prodURL\", \"https://prod-url.app\")"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "default",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"platform\": \"android\",\r\n    \"key\": \"continuous-android\",\r\n    \"id\": \"ae588f42-965a-4b9c-93f4-f08755db941f\",\r\n    \"version\": \"1.0.0\",\r\n    \"sdk\": \"48.0.0\",\r\n    \"completedAt\": \"2023-03-27T18:00:00.000Z\",\r\n    \"expiresAt\": \"2023-04-26T18:00:00.000Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{prodURL}}/inject",
+					"host": [
+						"{{prodURL}}"
+					],
+					"path": [
+						"inject"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "LOCAL - Healthcheck",
 			"request": {
 				"method": "GET",
@@ -215,6 +264,57 @@
 					"port": "8080",
 					"path": [
 						"webhook"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LOCAL - Inject Build",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "default",
+						"disabled": true
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"platform\": \"android\",\r\n    \"key\": \"continuous-android\",\r\n    \"id\": \"ae588f42-965a-4b9c-93f4-f08755db941f\",\r\n    \"version\": \"1.0.0\",\r\n    \"sdk\": \"48.0.0\",\r\n    \"completedAt\": \"2023-03-27T18:00:00.000Z\",\r\n    \"expiresAt\": \"2023-04-26T18:00:00.000Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/inject",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"inject"
 					]
 				}
 			},
