@@ -34,6 +34,7 @@ type Environment string
 
 // List of available environments
 const (
+	Simulator	Environment = "dev-simulator"
 	Review      Environment = "reviewapp"
 	Continuous  Environment = "continuous"
 	Integration Environment = "integration"

@@ -16,6 +16,7 @@ var CONFLUENCE_SPACE = os.Getenv("CONFLUENCE_SPACE")
 
 // Titles related to environments -- Used for Confluence
 var environments = map[Environment]string{
+	Simulator:	 "Simulator",
 	Review:      "Review App",
 	Continuous:  "Continuous",
 	Integration: "Integration",
